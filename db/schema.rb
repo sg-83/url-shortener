@@ -20,10 +20,12 @@ ActiveRecord::Schema.define(version: 20181111195407) do
     t.string   "full"
     t.string   "shortened"
     t.string   "title"
-    t.integer  "clicks"
+    t.integer  "clicks",     default: 0
     t.integer  "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
+
+  add_index "urls", ["status"], name: "index_urls_on_status", using: :btree
 
 end

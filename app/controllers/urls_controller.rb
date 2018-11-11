@@ -13,10 +13,8 @@ class UrlsController < ApplicationController
   # Generate Short URL, persist it to DB and queue up scrape job
     if valid_url?(params["url"])
       @url = Url.new(full: params["url"])
-      @url.shorten!
       @url.save
-
-      byebug
+      @url.shorten!
 
       ScrapeUrlForTitleJob.perform_later(@url.id)
 
@@ -35,6 +33,9 @@ class UrlsController < ApplicationController
 
   def show
   # Find short url, redirect to full URL
-    redirect_to 'https://www.google.com' and return
+    id = IdConverter.decode(params["id"])
+    url = Url.find(id)
+    IncrementClicksForUrlJob.perform_later(id)
+    redirect_to url.full and return
   end
 end

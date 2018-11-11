@@ -22,5 +22,9 @@ module UrlShortener
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # We want to load /lib automatically, as the module that handles
+    # URL shortening live there
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
