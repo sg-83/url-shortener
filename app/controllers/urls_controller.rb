@@ -3,6 +3,11 @@ class UrlsController < ApplicationController
 
   def index
   # Show top 100 URLS
+    @urls = Url.all.order(clicks: :desc).limit(100)
+    respond_to do |format|
+      format.html
+      format.json { render json: @urls.map{ |url| {title: url.title, url: url.shortened} }.to_json }
+    end
   end
 
   def new
