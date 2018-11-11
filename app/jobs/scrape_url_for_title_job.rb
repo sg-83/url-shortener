@@ -10,7 +10,6 @@ class ScrapeUrlForTitleJob < ActiveJob::Base
     end
 
     if scrape.success?
-      byebug
       title = Nokogiri::HTML(scrape.body).css('title').text
       logger.info("Ran Job, parsed title as #{title}")
     else
