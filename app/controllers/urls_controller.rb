@@ -12,9 +12,20 @@ class UrlsController < ApplicationController
   def create
   # Generate Short URL, persist it to DB and queue up scrape job
     @short_url = "/testing"
-    respond_to do |format|
-      format.html
-      format.json { render json: @short_url }
+
+    if valid_url?(params["url"])
+      ScrapeUrlForTitleJob.perform_later(params["url"])
+
+      respond_to do |format|
+        format.html
+        format.json { render json: @short_url }
+      end
+    else
+      logger.error('Invalid Url')
+      respond_to do |format|
+        format.html { redirect_to :root }
+        format.json { render json: {error: "Invalid Url"}}
+      end
     end
   end
 
