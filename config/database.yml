@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: urlShortener_production
-  username: urlShortener
-  password: <%= ENV['URLSHORTENER_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
