@@ -2,8 +2,12 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-  # Show top 100 URLS
-    @urls = Url.all.order(clicks: :desc).limit(100)
+    # Show top 100 URLS that have successfully been parsed.
+    @urls = Url.all
+               .order(clicks: :desc)
+               .where.not(title: nil)
+               .limit(100)
+
     respond_to do |format|
       format.html
       format.json { render json: @urls.map{ |url| {title: url.title, url: url.shortened} }.to_json }
