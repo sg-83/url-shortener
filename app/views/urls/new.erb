@@ -1,7 +1,7 @@
-<h1>Form to create a new </h1>
+<h1>Welcome to URL-shrtnr</h1>
 
 <%= form_tag("/", method: 'POST') do %>
-  <%= label_tag(:url, "Enter the URL to shorten") %>
+  <%= label_tag(:url, "Enter the URL to shorten:") %>
   <%= text_field_tag(:url) %>
   <%= submit_tag("Generate") %>
 <% end %>
