@@ -2,16 +2,13 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    # Show top 100 URLS that have successfully been parsed.
+    # Show top 100 URLS that have successfully been parsed and a title set.
     @urls = Url.all
                .order(clicks: :desc)
                .where.not(title: nil)
                .limit(100)
 
-    respond_to do |format|
-      format.html
-      format.json { render json: @urls.map{ |url| {title: url.title, url: url.shortened} }.to_json }
-    end
+    render json: @urls.map { |u| { title: u.title, url: u.shortened_url } }.to_json
   end
 
   def new
@@ -26,17 +23,10 @@ class UrlsController < ApplicationController
       @url.shorten!
 
       ScrapeUrlForTitleJob.perform_later(@url.id)
-
-      respond_to do |format|
-        format.html
-        format.json { render json: @url }
-      end
+      render json: {shortened_link: @url.shortened_url }
     else
       logger.error('Invalid Url')
-      respond_to do |format|
-        format.html { redirect_to :root }
-        format.json { render json: {error: "Invalid Url"}}
-      end
+      render json: { error: "Failed to shorten URL" }
     end
   end
 

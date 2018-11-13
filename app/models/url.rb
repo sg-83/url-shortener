@@ -10,6 +10,10 @@ class Url < ActiveRecord::Base
     self.save
   end
 
+  def shortened_url
+    SITE_ROOT + '/' + shortened
+  end
+
   def increment_clicks!
     self.clicks += 1
     self.save
