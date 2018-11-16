@@ -26,5 +26,10 @@ module UrlShortener
     # We want to load /lib automatically, as the module that handles
     # URL shortening live there
     config.autoload_paths << Rails.root.join('lib')
+
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
+    }
   end
 end
