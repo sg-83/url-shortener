@@ -31,5 +31,8 @@ module UrlShortener
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
     }
+
+    config.active_job.queue_adapter = :delayed_job
+
   end
 end
