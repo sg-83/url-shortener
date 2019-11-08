@@ -28,19 +28,14 @@ See where you'll be redirected via:
 
 The approach for shortening URLs that this app uses is actually pretty simple. It relies on the insight
 that we can convert any base10 number into a number with a much larger base, and cut down
-on the length of digits needed to represent that number.  
+on the length of digits needed to represent that number. A base 62 number that is 6 digits 
+long gives us 56,800,235,583 URLs to work with.
 
 The list of url safe characters is a-z, A-Z, and 0-9, giving a total of 62 characters. We can then use these
 62 characters, and use them as digits in our base62 numbering system. The last step is to
 simply convert the unique base10 encoded database keys for each record into base62, and map each
-numerical digit, to one of our Url safe characters. We can do this easily by pre-populating an
-array with all 62 URL safe characters, and just doing array lookups for each base62 digit.  
+numerical digit, to one of our URL safe characters. We can do this easily by pre-populating an
+array with all 62 URL safe characters, and just doing array lookups for each base62 digit.
 
-This approach gives us very short URL's which can represent very large base10 numbers, ie:  
-1 digit : 61 records (since 0 will not be a DB id)  
-2 digit : 3,843 records  
-3 ..    : 238,327 ..  
-4 ..    : 14,776,335 ..  
-5 ..    : 916,132,831 ..  
-6 ..    : 56,800,235,583 ..  
+This approach gives us very short URL's which can represent very large base10 numbers.
 
